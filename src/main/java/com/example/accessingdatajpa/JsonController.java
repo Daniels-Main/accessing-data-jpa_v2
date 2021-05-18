@@ -1,12 +1,15 @@
 package com.example.accessingdatajpa;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.ui.Model;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by: Daniels
@@ -16,18 +19,37 @@ import java.io.IOException;
 @RestController
 public class JsonController {
 
-    private static final Logger log = LoggerFactory.getLogger(AccessingDataJpaApplication.class);
+    private final alumnoService alumnoService;
 
-    @GetMapping("/processJson")
-    public ModelAndView getJson(Model model) {
-        return new ModelAndView("alumno", "Alumno", new AlumnoEntity());
+    @Autowired
+    public JsonController(alumnoService alumnoService) {
+        this.alumnoService = alumnoService;
     }
+
+
     @PostMapping("/processJson")
-    public String getSubmit(@RequestBody String processJson) throws IOException {
-        jsonToJava jtj = new jsonToJava(processJson);
+    public Long getSubmit(@RequestBody String processJson, alumnoRepository repository) throws IOException {
 
+        AlumnoEntity alumnoEntity;
+        ObjectMapper om = new ObjectMapper();
+        String result = java.net.URLDecoder.decode(processJson, StandardCharsets.UTF_8.name());
+        result = result.substring(12);
+        alumnoEntity = om.readValue(result, AlumnoEntity.class);
+        AlumnoEntity alumnocreado = alumnoService.add(alumnoEntity);
+        System.out.println(alumnoEntity);
 
-        return "Done!";
+        return alumnocreado.getId();
     }
 
+    @GetMapping("find/{id}")
+    public String findAlumnoById (@PathVariable("id") long id){
+        Optional<AlumnoEntity> alumno = alumnoService.findAlumnoById(id);
+        String texto = alumno.toString().substring(8);
+        return texto;
+    }
+    @GetMapping("findAll")
+    private ResponseEntity<List<AlumnoEntity>> findAllAlumnos() {
+        List<AlumnoEntity> alumnos = alumnoService.findAllAlumnos();
+        return new ResponseEntity<>(alumnos, HttpStatus.OK);
+    }
 }

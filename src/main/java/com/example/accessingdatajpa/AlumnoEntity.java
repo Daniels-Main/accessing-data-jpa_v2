@@ -1,9 +1,6 @@
 package com.example.accessingdatajpa;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by: Daniels
@@ -11,17 +8,23 @@ import javax.persistence.Id;
  * Description:
  */
 @Entity
+@Table(name = "Alumnos")
 public class AlumnoEntity {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column (name = "id")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
+    @Column (name = "nombre")
     private String nombre;
+
+    @Column (name = "edad")
     private int edad;
 
     protected AlumnoEntity() {}
 
-    public AlumnoEntity(Long id, String nombre, int edad) {
-        this.id = id;
+    public AlumnoEntity( String nombre, int edad) {
+        super();
         this.nombre = nombre;
         this.edad = edad;
     }
@@ -43,5 +46,9 @@ public class AlumnoEntity {
 
     public int getEdad() {
         return edad;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

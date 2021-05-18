@@ -1,0 +1,4 @@
+2021-05-18 22:28:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "ALUMNOENTITY" no encontrada
+Table "ALUMNOENTITY" not found; SQL statement:
+select Max(id) from AlumnoEntity [42102-200]

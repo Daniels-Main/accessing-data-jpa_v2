@@ -1,5 +1,6 @@
 package com.example.accessingdatajpa;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -9,8 +10,6 @@ import java.util.List;
  * Date: 14/05/2021
  * Description:
  */
-public interface alumnoRepository extends CrudRepository<AlumnoEntity, Long> {
-    List<AlumnoEntity> findByNombre(String nombre);
+public interface alumnoRepository extends JpaRepository<AlumnoEntity, Long> {
 
-    AlumnoEntity findById(long id);
 }

@@ -14,11 +14,11 @@ import javax.persistence.Id;
 public class AsignaturaEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+    private int id;
     public int nota;
     public String nombre;
 
-    public AsignaturaEntity(String nombre, int nota , Long id){
+    public AsignaturaEntity(String nombre, int nota , int id){
         this.id = id;
         this.nombre = nombre;
         this.nota = nota;
@@ -27,8 +27,7 @@ public class AsignaturaEntity {
     public AsignaturaEntity(){
     }
 
-    @Id
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -48,7 +47,7 @@ public class AsignaturaEntity {
         this.nombre = nombre;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
